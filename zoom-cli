@@ -1,0 +1,19 @@
+#!/bin/zsh
+
+script_dir=${0:a:h}
+csv_location=${script_dir}/zoom_ids.csv
+
+meetingName=
+meetingLink=
+passcode=
+
+{
+    read -r meetingName
+    read -r meetingLink
+    read -r passcode
+}<<<$( awk -F ';' -v code="$1" '{if (code == $2) {print $1; print $3; print $4}}' $csv_location )
+
+echo $passcode | xclip -selection clipboard
+echo "passcode for <$meetingName> copied to clipboard!"
+
+xdg-open $meetingLink
