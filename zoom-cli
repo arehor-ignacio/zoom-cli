@@ -1,17 +1,22 @@
 #!/bin/zsh
 
-script_dir=${0:a:h}
-csv_location=${script_dir}/zoom_ids.csv
+csv_location=${HOME}/.zoom-cli/meetings.csv
 
-meetingName=
-meetingLink=
-passcode=
+if [ ! -f $csv_location ]; then
+    echo "Meetings file not found!" >&2
+    exit 1
+fi
 
 {
     read -r meetingName
     read -r meetingLink
     read -r passcode
 }<<<$( awk -F ';' -v code="$1" '{if (code == $2) {print $1; print $3; print $4}}' $csv_location )
+
+if [[ ${#meetingLink} -eq 0 ]]; then
+    echo "Meeting code not found!"
+    exit 1
+fi
 
 echo $passcode | xclip -selection clipboard
 echo "passcode for <$meetingName> copied to clipboard!"
