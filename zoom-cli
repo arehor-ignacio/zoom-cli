@@ -18,7 +18,7 @@ if [[ ${#meetingLink} -eq 0 ]]; then
     exit 1
 fi
 
-echo $passcode | xclip -selection clipboard
+echo -n $passcode | xclip -selection clipboard
 echo "passcode for <$meetingName> copied to clipboard!"
 
 xdg-open $meetingLink
